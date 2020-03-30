@@ -1,0 +1,30 @@
+/* Add application styles & imports to this file! */
+
+@import url("../node_modules/primeicons/primeicons.css");
+@import url("../node_modules/primeng/resources/themes/nova-light/theme.css");
+@import url("../node_modules/primeng/resources/primeng.min.css");
+
+html {
+  font-family: cursive;
+  font-size: 16px;
+  background-color: lavenderblush;
+}
+
+.med-spacing {
+  height: 30px;
+}
+
+.small-spacing {
+  height: 15px;
+}
+
+
+.med-left-spacing{
+  margin-left: 20px;
+}
+
+body .ui-table .ui-table-tbody > tr> th,
+body .ui-table .ui-table-thead > tr > th,
+body .ui-table .ui-table-tbody > tr> td {
+  text-align: center;
+}

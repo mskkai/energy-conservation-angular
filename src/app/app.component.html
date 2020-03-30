@@ -1,0 +1,8 @@
+<p>
+	<app-floor-plan-details *ngIf="showFloorPlanDetails" [floors]="floors"
+		(viewEnergyEvent)="onViewEnergyEvent($event)"></app-floor-plan-details>
+
+	<app-energy-consumption-details *ngIf="showEnergyConsumption" (viewFloorPlanEvent)="onViewFloorPlanEvent($event)"
+		[floors]="floors"></app-energy-consumption-details>
+
+</p>

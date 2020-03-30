@@ -1,0 +1,27 @@
+
+.on-status{
+  background-color: rgb(217, 255, 160) !important;
+}
+
+.off-status{
+   background-color: rgb(224, 105, 105) !important;
+}
+
+.back-button{
+    top: 50px;
+    position: relative;
+}
+
+.level-text-color{
+  color: green;
+}
+
+.max-text-color{
+  color: rgb(224, 105, 105);
+}
+
+
+.corridor-plan-table{
+  width: 75%;
+  min-width: 500px;
+}
