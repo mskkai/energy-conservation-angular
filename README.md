@@ -5,6 +5,8 @@ This app when connected to installed Motion Sensors at appropriate places, acts 
 
 App takes input values for Floors, Main corridors, Sub corridors and takes different external inputs for motion in sub corridors. For each input, the program prints out the state of all the lights and ACs in the building. Controls the automatic power off of the equipments when no motions are deducted.
 
+This simple UI app can be used at https://energyconservation.stackblitz.io
+
 On technolgical stack, this app uses,
 - node
 - angular
