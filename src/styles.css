@@ -8,6 +8,7 @@ html {
   font-family: cursive;
   font-size: 16px;
   background-color: lavenderblush;
+  margin-left: 25px;
 }
 
 .med-spacing {
@@ -18,13 +19,12 @@ html {
   height: 15px;
 }
 
-
-.med-left-spacing{
+.med-left-spacing {
   margin-left: 20px;
 }
 
-body .ui-table .ui-table-tbody > tr> th,
+body .ui-table .ui-table-tbody > tr > th,
 body .ui-table .ui-table-thead > tr > th,
-body .ui-table .ui-table-tbody > tr> td {
+body .ui-table .ui-table-tbody > tr > td {
   text-align: center;
 }

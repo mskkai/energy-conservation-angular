@@ -1,7 +1,7 @@
 import { Corridor } from "./corridor";
 import { Utilities } from "./utilities";
 import { Observable, Subject } from "rxjs";
-import {Constants as constants} from "../energy-conservation-constants/energy-conservation-constants";
+import { Constants as constants } from "../energy-conservation-constants/energy-conservation-constants";
 
 export class Floor {
   floorNumber: number;
@@ -14,7 +14,7 @@ export class Floor {
     this.mainCorridors = [];
     this.mainCorridors = this.createCorridor(numberOfMainCorridors);
 
-    this.mainCorridors.forEach((val)=>{
+    this.mainCorridors.forEach((val) => {
       val.utilities.lightStatus = true;
     });
 
@@ -30,7 +30,7 @@ export class Floor {
 
   resetSubCorridorEnergyConsumption() {
     console.log("RESET SUB CORRIDOR STATUS FOR:", this.floorNumber);
-    this.subCorridors.forEach(corridor => {
+    this.subCorridors.forEach((corridor) => {
       corridor.motionDetected = false;
       let utilities: Utilities = new Utilities();
       utilities.lightStatus = false;
@@ -50,20 +50,22 @@ export class Floor {
     return corridors;
   }
 
-  updateMotionInCorridor(corridor: Corridor){
-    this.subCorridors.forEach(val => {
-      if (val.corridorNumber == corridor.corridorNumber) {
-        val.motionDetected = true;
-        val.utilities.acStatus = true;
-        val.utilities.lightStatus = true;
-        return;
+  updateMotionInCorridor(corridor: Corridor) {
+    this.subCorridors.forEach((val) => {
+      if (val.motionDetected) {
+        if (val.corridorNumber == corridor.corridorNumber) {
+          val.motionDetected = true;
+          val.utilities.acStatus = true;
+          val.utilities.lightStatus = true;
+          return;
+        }
       }
     });
   }
 
   verifyMaxConsumption() {
     if (this.getFloorConsumption() > this.getMaxConsumption()) {
-      this.subCorridors.forEach(corridor => {
+      this.subCorridors.forEach((corridor) => {
         if (corridor.motionDetected) {
           corridor.utilities.acStatus = true;
           corridor.utilities.lightStatus = true;
@@ -72,19 +74,19 @@ export class Floor {
           corridor.utilities.lightStatus = false;
         }
       });
-      
+
       this.masterCheckOnConsumption();
       this.floorConsumption.next(this.getFloorConsumption());
     }
   }
 
-  masterCheckOnConsumption(){
+  masterCheckOnConsumption() {
     if (this.getFloorConsumption() > this.getMaxConsumption()) {
-       this.subCorridors.forEach(corridor => {
+      this.subCorridors.forEach((corridor) => {
         if (corridor.motionDetected) {
           corridor.utilities.acStatus = false;
           corridor.utilities.lightStatus = true;
-        } 
+        }
       });
     }
   }
@@ -92,13 +94,13 @@ export class Floor {
   getAcConsumption() {
     let acConsumption = 0;
 
-    this.mainCorridors.forEach(corridor => {
+    this.mainCorridors.forEach((corridor) => {
       if (corridor.utilities.acStatus) {
         acConsumption++;
       }
     });
 
-    this.subCorridors.forEach(corridor => {
+    this.subCorridors.forEach((corridor) => {
       if (corridor.utilities.acStatus) {
         acConsumption++;
       }
@@ -110,13 +112,13 @@ export class Floor {
   getLightsConsumption() {
     let lightsConsumption = 0;
 
-    this.mainCorridors.forEach(corridor => {
+    this.mainCorridors.forEach((corridor) => {
       if (corridor.utilities.lightStatus) {
         lightsConsumption++;
       }
     });
 
-    this.subCorridors.forEach(corridor => {
+    this.subCorridors.forEach((corridor) => {
       if (corridor.utilities.lightStatus) {
         lightsConsumption++;
       }

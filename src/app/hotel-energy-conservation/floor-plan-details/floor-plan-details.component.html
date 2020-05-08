@@ -1,68 +1,127 @@
 <div style="text-align:left; align">
-	<p-toast position="top-right"></p-toast>
+  <p-toast position="top-right"></p-toast>
 
-	<h2 class="first">HOTEL ENERGY CONSUMPTION</h2>
-	<div class="small-spacing"></div>
+  <h2 class="first">HOTEL ENERGY CONSUMPTION</h2>
+  <div class="small-spacing"></div>
 
+  <h4 class="first">Enter Number of Floors</h4>
+  <input
+    id="input"
+    type="number"
+    size="10"
+    min="2"
+    pInputText
+    [(ngModel)]="noOfFloors"
+  />
 
-	<h4 class="first">Enter Number of Floors</h4>
-	<input id="input" type="number" size="10" min="2" pInputText [(ngModel)]="noOfFloors">
+  &nbsp;
+  <button
+    pButton
+    type="button"
+    label="Create Floors"
+    class="ui-button-rounded"
+    (click)="createFloors()"
+  ></button>
 
- &nbsp;
-	<button pButton type="button" label="Create Floors" class="ui-button-rounded" (click)="createFloors()"></button>
+  <div class="med-spacing"></div>
 
-	<div class="med-spacing"></div>
+  <h4 class="first">
+    Floor Plan Details
+    <span class="med-left-spacing"></span>
+    <button
+      pButton
+      type="button"
+      label="View Energy Consumption"
+      class="ui-button-rounded"
+      (click)="viewEnergyConsumption()"
+    ></button>
+  </h4>
+  <div class="small-Spacing"></div>
 
-	<h4 class="first">Floor Plan Details
-		<span class="med-left-spacing"></span>
-		<button pButton type="button" label="View Energy Consumption" class="ui-button-rounded" (click)="viewEnergyConsumption()"></button>
-	</h4>
-	<div class="small-Spacing"></div>
-
-	<div class="floor-plan-table">
-		<p-table [value]="floors" dataKey="floorNumber" editMode="row">
-			<ng-template pTemplate="header">
-				<tr>
-					<th>Floor</th>
-					<th>Main Corridor</th>
-					<th>Sub Corridor</th>
-					<th style="width:8em"></th>
-				</tr>
-			</ng-template>
-			<ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
-				<tr [pEditableRow]="rowData">
-					<td>
-						{{rowData.floorNumber}}
-					</td>
-					<td>
-						<p-cellEditor>
-							<ng-template pTemplate="input">
-								<input pInputText type="number" [(ngModel)]="noOfMainCorridors" min="1" required>
-                    </ng-template>
-								<ng-template pTemplate="output">
-									{{rowData.mainCorridors.length}}
-								</ng-template>
-						</p-cellEditor>
-					</td>
-					<td>
-						<p-cellEditor>
-							<ng-template pTemplate="input">
-								<input pInputText type="number" [(ngModel)]="noOfSubCorridors" min="1" required>
-                    </ng-template>
-								<ng-template pTemplate="output">
-									{{rowData.subCorridors.length}}
-								</ng-template>
-						</p-cellEditor>
-					</td>
-					<td style="text-align:center">
-						<button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info" (click)="onRowEditInit(rowData)"></button>
-						<button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button>
-						<button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times" class="ui-button-danger" (click)="onRowEditCancel(rowData, ri)"></button>
-					</td>
-
-				</tr>
-			</ng-template>
-		</p-table>
-	</div>
-
+  <div class="floor-plan-table">
+    <p-table [value]="floors" dataKey="floorNumber" editMode="row">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Floor</th>
+          <th>Main Corridor</th>
+          <th>Sub Corridor</th>
+          <th style="width: 8em;"></th>
+        </tr>
+      </ng-template>
+      <ng-template
+        pTemplate="body"
+        let-rowData
+        let-editing="editing"
+        let-ri="rowIndex"
+      >
+        <tr [pEditableRow]="rowData">
+          <td>
+            {{rowData.floorNumber}}
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input
+                  pInputText
+                  type="number"
+                  [(ngModel)]="noOfMainCorridors"
+                  min="1"
+                  required
+                />
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{rowData.mainCorridors.length}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input
+                  pInputText
+                  type="number"
+                  [(ngModel)]="noOfSubCorridors"
+                  min="1"
+                  required
+                />
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{rowData.subCorridors.length}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td style="text-align: center;">
+            <button
+              *ngIf="!editing"
+              pButton
+              type="button"
+              pInitEditableRow
+              icon="pi pi-pencil"
+              class="ui-button-info"
+              (click)="onRowEditInit(rowData)"
+            ></button>
+            <button
+              *ngIf="editing"
+              pButton
+              type="button"
+              pSaveEditableRow
+              icon="pi pi-check"
+              class="ui-button-success"
+              style="margin-right: 0.5em;"
+              (click)="onRowEditSave(rowData)"
+            ></button>
+            <button
+              *ngIf="editing"
+              pButton
+              type="button"
+              pCancelEditableRow
+              icon="pi pi-times"
+              class="ui-button-danger"
+              (click)="onRowEditCancel(rowData, ri)"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 </div>

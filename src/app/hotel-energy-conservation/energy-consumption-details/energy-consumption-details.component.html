@@ -1,91 +1,156 @@
 <div>
+  <p-toast position="top-right"></p-toast>
+  <h2 class="first">VIEW ENERGY CONSUMPTION</h2>
+  <div class="small-spacing"></div>
 
-	<p-toast position="top-right"></p-toast>
-	<h2 class="first">VIEW ENERGY CONSUMPTION</h2>
-	<div class="small-spacing"></div>
+  <div class="med-spacing"></div>
+  <div class="floor-number">
+    <h4 class="first">View Consumption Details</h4>
+    <span class="med-left-spacing"></span>
+    <p-dropdown
+      [options]="floors"
+      [(ngModel)]="selectedFloor"
+      placeholder="Select a Floor"
+      optionLabel="floorNumber"
+      (onChange)="getConsumptionDetails()"
+      [showClear]="true"
+    >
+    </p-dropdown>
+  </div>
 
+  <div class="med-spacing" *ngIf="selectedFloor && selectedFloor.floorNumber>0">
+    <h6 class="first">
+      Selected floor <span>{{selectedFloor.floorNumber}}</span>
+    </h6>
+    <h6 class="first">
+      Maximum allowed energy consumption
+      <span class="max-text-color">{{MAX_LIMIT}}</span>
+    </h6>
+    <h6 class="first">
+      Current energy consumption
+      <span class="level-text-color">{{selectedFloorConsumption}}</span>
+    </h6>
+    <div class="med-spacing"></div>
 
-	<div class="med-spacing"></div>
-	<h4 class="first">View Consumption Details
-		<span class="med-left-spacing"></span>
-		<p-dropdown [options]="floors" [(ngModel)]="selectedFloor" placeholder="Select a Floor"
-			optionLabel="floorNumber" (onChange)="getConsumptionDetails()" [showClear]="true">
-		</p-dropdown>
+    <div class="corridor-plan-table">
+      <p-table [value]="selectedFloor.mainCorridors">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Corridor Number</th>
+            <th>AC Status</th>
+            <th>Light Status</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-corridor>
+          <tr>
+            <td>{{corridor.corridorNumber}}</td>
+            <td
+              [ngClass]="(corridor.utilities.acStatus)?'on-status': 'off-status'"
+            >
+              {{corridor.utilities.acStatus? 'ON': 'OFF'}}
+            </td>
+            <td
+              [ngClass]="(corridor.utilities.lightStatus)?'on-status': 'off-status'"
+            >
+              {{corridor.utilities.lightStatus? 'ON': 'OFF'}}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="med-spacing"></div>
+    <div class="corridor-plan-table">
+      <p-table
+        [value]="selectedFloor.subCorridors"
+        dataKey="corridorNumber"
+        editMode="row"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Corridor Number</th>
+            <th>AC Status</th>
+            <th>Light Status</th>
+            <th>Movement in Corridor</th>
+            <th style="width: 8em;">Update Movement</th>
+          </tr>
+        </ng-template>
+        <ng-template
+          pTemplate="body"
+          let-corridor
+          let-editing="editing"
+          let-ri="rowIndex"
+        >
+          <tr [pEditableRow]="corridor">
+            <td>{{corridor.corridorNumber}}</td>
+            <td
+              [ngClass]="(corridor.utilities.acStatus)?'on-status': 'off-status'"
+            >
+              {{corridor.utilities.acStatus? 'ON': 'OFF'}}
+            </td>
+            <td
+              [ngClass]="(corridor.utilities.lightStatus)?'on-status': 'off-status'"
+            >
+              {{corridor.utilities.lightStatus? 'ON': 'OFF'}}
+            </td>
 
-	</h4>
+            <td
+              pEditableColumn
+              [ngClass]="(corridor.motionDetected)?'on-status': 'off-status'"
+            >
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <p-dropdown
+                    [options]="motions"
+                    [(ngModel)]="corridor.motionDetected"
+                    [style]="{'width':'100%'}"
+                  ></p-dropdown>
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{corridor.motionDetected? 'YES':'NO'}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
 
-	<div class="med-spacing" *ngIf="selectedFloor && selectedFloor.floorNumber>0">
-		<h6 class="first">Selected floor <span>{{selectedFloor.floorNumber}}</span></h6>
-		<h6 class="first">Maximum allowed energy consumption <span class="max-text-color">{{MAX_LIMIT}}</span></h6>
-		<h6 class="first">Current energy consumption <span class="level-text-color">{{selectedFloorConsumption}}</span>
-		</h6>
-		<div class="med-spacing"></div>
-
-		<div class="corridor-plan-table">
-			<p-table [value]="selectedFloor.mainCorridors">
-				<ng-template pTemplate="header">
-					<tr>
-						<th>Corridor Number</th>
-						<th>AC Status</th>
-						<th>Light Status</th>
-					</tr>
-				</ng-template>
-				<ng-template pTemplate="body" let-corridor>
-					<tr>
-						<td>{{corridor.corridorNumber}}</td>
-						<td [ngClass]="(corridor.utilities.acStatus)?'on-status': 'off-status'">
-							{{corridor.utilities.acStatus? 'ON': 'OFF'}}</td>
-						<td [ngClass]="(corridor.utilities.lightStatus)?'on-status': 'off-status'">
-							{{corridor.utilities.lightStatus? 'ON': 'OFF'}}</td>
-					</tr>
-				</ng-template>
-			</p-table>
-		</div>
-		<div class="med-spacing"></div>
-		<div class="corridor-plan-table">
-			<p-table [value]="selectedFloor.subCorridors" dataKey="corridorNumber" editMode="row">
-				<ng-template pTemplate="header">
-					<tr>
-						<th>Corridor Number</th>
-						<th>AC Status</th>
-						<th>Light Status</th>
-						<th>Movement in Corridor</th>
-						<th style="width:8em">Update Movement</th>
-					</tr>
-				</ng-template>
-				<ng-template pTemplate="body" let-corridor let-editing="editing" let-ri="rowIndex">
-					<tr [pEditableRow]="corridor">
-						<td>{{corridor.corridorNumber}}</td>
-						<td [ngClass]="(corridor.utilities.acStatus)?'on-status': 'off-status'">
-							{{corridor.utilities.acStatus? 'ON': 'OFF'}}</td>
-						<td [ngClass]="(corridor.utilities.lightStatus)?'on-status': 'off-status'">
-							{{corridor.utilities.lightStatus? 'ON': 'OFF'}}</td>
-
-						<td pEditableColumn [ngClass]="(corridor.motionDetected)?'on-status': 'off-status'">
-							<p-cellEditor>
-								<ng-template pTemplate="input">
-									<p-dropdown [options]="motions" [(ngModel)]="corridor.motionDetected"
-										[style]="{'width':'100%'}"></p-dropdown>
-								</ng-template>
-								<ng-template pTemplate="output">
-									{{corridor.motionDetected? 'YES':'NO'}}
-								</ng-template>
-							</p-cellEditor>
-						</td>
-
-
-						<td style="text-align:center">
-							<button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info" (click)="onRowEditInit(corridor)"></button>
-							<button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(corridor)"></button>
-							<button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times" class="ui-button-danger" (click)="onRowEditCancel(corridor, ri)"></button>
-						</td>
-					</tr>
-				</ng-template>
-			</p-table>
-		</div>
-		<button pButton type="button" label="Back To Floor Plan" class="back-button ui-button-rounded" (click)="viewFloorPlanDetails()"></button>
-
-	</div>
-
-
+            <td style="text-align: center;">
+              <button
+                *ngIf="!editing"
+                pButton
+                type="button"
+                pInitEditableRow
+                icon="pi pi-pencil"
+                class="ui-button-info"
+                (click)="onRowEditInit(corridor)"
+              ></button>
+              <button
+                *ngIf="editing"
+                pButton
+                type="button"
+                pSaveEditableRow
+                icon="pi pi-check"
+                class="ui-button-success"
+                style="margin-right: 0.5em;"
+                (click)="onRowEditSave(corridor)"
+              ></button>
+              <button
+                *ngIf="editing"
+                pButton
+                type="button"
+                pCancelEditableRow
+                icon="pi pi-times"
+                class="ui-button-danger"
+                (click)="onRowEditCancel(corridor, ri)"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <button
+      pButton
+      type="button"
+      label="Back To Floor Plan"
+      class="back-button ui-button-rounded"
+      (click)="viewFloorPlanDetails()"
+    ></button>
+  </div>
 </div>
